@@ -17,19 +17,25 @@ build:
 
 requirements:
   host:
-    - python
+    - python >=2.7
     - pip
+    - setuptools
+    - wheel
   run:
-    - python
+    - python >=2.7
     - requests
-    - cryptography
+    - cryptography >=3.2,<4
 
 test:
   imports:
     - authlib
+  requires:
+    - pip
+  commands:
+    - pip check
 
 about:
-  home: https://github.com/lepture/authlib
+  home: https://authlib.org/
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
