@@ -17,12 +17,12 @@ build:
 
 requirements:
   host:
-    - python >=2.7
+    - python >=3.6
     - pip
     - setuptools
     - wheel
   run:
-    - python >=2.7
+    - python >=3.6
     - requests
     - cryptography >=3.2,<4
 
