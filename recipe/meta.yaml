@@ -1,6 +1,6 @@
 {% set name = "authlib" %}
-{% set version = "1.0.1" %}
-{% set sha256 = "6e74a4846ac36dfc882b3cc2fbd3d9eb410a627f2f2dc11771276655345223b1" %}
+{% set version = "0.15.5" %}
+{% set sha256 = "b83cf6360c8e92b0e9df0d1f32d675790bcc4e3c03977499b1eed24dcdef4252" %}
 
 package:
   name: {{ name|lower }}
@@ -11,7 +11,6 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  skip: True  # [py<37]
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps -vv
 
@@ -23,6 +22,7 @@ requirements:
     - wheel
   run:
     - python
+    - requests
     - cryptography >=3.2
 
 test:
