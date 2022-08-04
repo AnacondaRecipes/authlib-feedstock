@@ -1,5 +1,5 @@
 {% set name = "authlib" %}
-{% set version = "0.15.4" %}
+{% set version = "1.0.1" %}
 {% set sha256 = "37df3a2554bc6fe0da3cc6848c44fac2ae40634a7f8fc72543947f4330b26464" %}
 
 package:
@@ -11,20 +11,19 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  noarch: python
+  skip: True  # [py<37]
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
   host:
-    - python >=3.6
+    - python
     - pip
     - setuptools
     - wheel
   run:
-    - python >=3.6
-    - requests
-    - cryptography >=3.2,<4
+    - python
+    - cryptography >=3.2
 
 test:
   imports:
@@ -33,6 +32,9 @@ test:
     - pip
   commands:
     - pip check
+  downstreams:
+    - simple-salesforce
+    - airflow
 
 about:
   home: https://authlib.org/
