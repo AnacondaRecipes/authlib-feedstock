@@ -32,9 +32,9 @@ test:
     - pip
   commands:
     - pip check
-  downstreams:
-    - simple-salesforce
-    - airflow
+  # downstreams:
+  #   - simple-salesforce
+  #   - airflow
 
 about:
   home: https://authlib.org/
