@@ -32,8 +32,8 @@ test:
     - pip
   commands:
     - pip check
-  downstreams:
-    - simple-salesforce 1.11.2
+  # downstreams:
+  #   - simple-salesforce 1.11.2
 
 
 about:
