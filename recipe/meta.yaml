@@ -1,18 +1,17 @@
 {% set name = "authlib" %}
-{% set version = "1.0.1" %}
-{% set sha256 = "6e74a4846ac36dfc882b3cc2fbd3d9eb410a627f2f2dc11771276655345223b1" %}
+{% set version = "1.3.1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|capitalize }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 7ae843f03c06c5c0debd63c9db91f9fda64fa62a42a77419fa15fbb7e7a58917
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
 requirements:
   host:
@@ -22,6 +21,7 @@ requirements:
     - wheel
   run:
     - python
+    # Keep requests at runtime for backward compatibility
     - requests
     - cryptography >=3.2
 
@@ -33,8 +33,8 @@ test:
   commands:
     - pip check
   # downstreams:
-  #   - simple-salesforce
-  #   - airflow
+  #   - simple-salesforce 1.11.2
+
 
 about:
   home: https://authlib.org/
@@ -42,8 +42,11 @@ about:
   license_family: BSD
   license_file: LICENSE
   summary: The ultimate Python library in building OAuth and OpenID Connect servers. JWS,JWE,JWK,JWA,JWT included. https://authlib.org/
-
-  doc_url: https://docs.authlib.org/en/latest/
+  description: |
+    The ultimate Python library in building OAuth and OpenID Connect servers.
+    It is designed from low level specifications implementations to high level frameworks integrations,
+    to meet the needs of everyone.
+  doc_url: https://docs.authlib.org/
   dev_url: https://github.com/lepture/authlib
 
 extra:
