@@ -62,7 +62,8 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - export DJANGO_SETTINGS_MODULE=tests.django.settings
+    - set DJANGO_SETTINGS_MODULE=tests.django.settings  # [win]
+    - export DJANGO_SETTINGS_MODULE=tests.django.settings  # [unix]
     - pytest -v tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
 
 about:
