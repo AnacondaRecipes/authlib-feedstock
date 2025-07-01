@@ -6,10 +6,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 4367d32031b7af175ad3a323d571dc7257b7099d55978087ceae4a0d88cd3210
-  url: https://github.com/authlib/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 2dfc1275b287aa1324ac5c014766b8c79fb228c59d98c021750d86b6ec7e0904
+  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+    sha256: 4367d32031b7af175ad3a323d571dc7257b7099d55978087ceae4a0d88cd3210
+  - url: https://github.com/authlib/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+    sha256: 2dfc1275b287aa1324ac5c014766b8c79fb228c59d98c021750d86b6ec7e0904
+    folder: gh
 
 build:
   skip: true  # [py<39]
@@ -38,7 +39,7 @@ requirements:
 
 test:
   source_files:
-    - tests
+    - gh/tests
   imports:
     - authlib
     - authlib.consts
@@ -62,6 +63,7 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - cd gh
     - set DJANGO_SETTINGS_MODULE=tests.django.settings  # [win]
     - export DJANGO_SETTINGS_MODULE=tests.django.settings  # [unix]
     - pytest -v tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
