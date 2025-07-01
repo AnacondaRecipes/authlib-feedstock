@@ -1,16 +1,19 @@
 {% set name = "authlib" %}
-{% set version = "1.5.1" %}
+{% set version = "1.6.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 5cbc85ecb0667312c1cdc2f9095680bb735883b123fb509fde1e65b1c5df972e
+  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+    sha256: 4367d32031b7af175ad3a323d571dc7257b7099d55978087ceae4a0d88cd3210
+  - url: https://github.com/authlib/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+    sha256: 2dfc1275b287aa1324ac5c014766b8c79fb228c59d98c021750d86b6ec7e0904
+    folder: gh
 
 build:
-  skip: true  # [py>39]
+  skip: true  # [py<39]
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
@@ -27,29 +30,55 @@ requirements:
     - cryptography >=3.2
   run_constrained:
     - pycryptodomex >=3.10,<4
+    - asgiref==3.6.0   # [py<310 and python_impl=="pypy"]
+
+# AssertionError: assert 'dev' == 'dev-client-id'
+{% set tests_to_skip = "test_register_with_overwrite" %}
+# Exclude django: django.core.exceptions.AppRegistryNotReady: Apps aren't loaded yet
+{% set ignore_tests = "--ignore=tests/django" %}
 
 test:
+  source_files:
+    - gh/tests
   imports:
     - authlib
+    - authlib.consts
+    - authlib.common
+    - authlib.integrations
+    - authlib.jose
+    - authlib.oauth1
+    - authlib.oauth2
+    - authlib.oidc
   requires:
     - pip
+    - pytest
+    - pytest-asyncio
+    - pytest-tornasync
+    - flask
+    - flask-sqlalchemy
+    - django
+    - cachelib
+    - httpx
+    - starlette
   commands:
     - pip check
-  # downstreams:
-  #   - simple-salesforce 1.11.2
-
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - cd gh
+    - set DJANGO_SETTINGS_MODULE=tests.django.settings  # [win]
+    - export DJANGO_SETTINGS_MODULE=tests.django.settings  # [unix]
+    - pytest -v tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
 
 about:
-  home: https://authlib.org/
+  home: https://authlib.org
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
-  summary: The ultimate Python library in building OAuth and OpenID Connect servers. JWS,JWE,JWK,JWA,JWT included. https://authlib.org/
+  summary: The ultimate Python library in building OAuth and OpenID Connect servers. JWS,JWE,JWK,JWA,JWT included. https://authlib.org
   description: |
     The ultimate Python library in building OAuth and OpenID Connect servers.
     It is designed from low level specifications implementations to high level frameworks integrations,
     to meet the needs of everyone.
-  doc_url: https://docs.authlib.org/
+  doc_url: https://docs.authlib.org
   dev_url: https://github.com/lepture/authlib
 
 extra:
