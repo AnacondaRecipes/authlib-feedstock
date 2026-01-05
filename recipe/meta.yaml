@@ -36,11 +36,11 @@ requirements:
 {% set tests_to_skip = "test_register_with_overwrite" %}
 # Exclude django: django.core.exceptions.AppRegistryNotReady: Apps aren't loaded yet
 {% set ignore_tests = "--ignore=tests/django" %}
-{% set ignore_tests = ignore_tests + " --ignore=tests/clients/test_django" %}
 
 test:
   source_files:
     - gh/tests
+    - gh/pyproject.toml
   imports:
     - authlib
     - authlib.consts
@@ -66,8 +66,8 @@ test:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
     - cd gh
-    - set DJANGO_SETTINGS_MODULE=tests.django.settings  # [win]
-    - export DJANGO_SETTINGS_MODULE=tests.django.settings  # [unix]
+    - set DJANGO_SETTINGS_MODULE=tests.django_settings  # [win]
+    - export DJANGO_SETTINGS_MODULE=tests.django_settings  # [unix]
     - pytest -v tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
 
 about:
