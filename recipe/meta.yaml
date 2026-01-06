@@ -1,5 +1,5 @@
 {% set name = "authlib" %}
-{% set version = "1.6.0" %}
+{% set version = "1.6.6" %}
 
 package:
   name: {{ name|lower }}
@@ -7,9 +7,9 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-    sha256: 4367d32031b7af175ad3a323d571dc7257b7099d55978087ceae4a0d88cd3210
+    sha256: 45770e8e056d0f283451d9996fbb59b70d45722b45d854d58f32878d0a40c38e
   - url: https://github.com/authlib/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 2dfc1275b287aa1324ac5c014766b8c79fb228c59d98c021750d86b6ec7e0904
+    sha256: 0c06b18e667033c3ed5c640bcc52d1bd7d8b285c2babc3e974bbb376b0b0b1c1
     folder: gh
 
 build:
@@ -40,6 +40,7 @@ requirements:
 test:
   source_files:
     - gh/tests
+    - gh/pyproject.toml
   imports:
     - authlib
     - authlib.consts
@@ -54,6 +55,7 @@ test:
     - pytest
     - pytest-asyncio
     - pytest-tornasync
+    - python-multipart
     - flask
     - flask-sqlalchemy
     - django
@@ -64,8 +66,8 @@ test:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
     - cd gh
-    - set DJANGO_SETTINGS_MODULE=tests.django.settings  # [win]
-    - export DJANGO_SETTINGS_MODULE=tests.django.settings  # [unix]
+    - set DJANGO_SETTINGS_MODULE=tests.django_settings  # [win]
+    - export DJANGO_SETTINGS_MODULE=tests.django_settings  # [unix]
     - pytest -v tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
 
 about:
@@ -79,7 +81,7 @@ about:
     It is designed from low level specifications implementations to high level frameworks integrations,
     to meet the needs of everyone.
   doc_url: https://docs.authlib.org
-  dev_url: https://github.com/lepture/authlib
+  dev_url: https://github.com/authlib/authlib
 
 extra:
   recipe-maintainers:
