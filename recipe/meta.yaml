@@ -1,16 +1,13 @@
 {% set name = "authlib" %}
-{% set version = "1.6.6" %}
+{% set version = "1.6.9" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-    sha256: 45770e8e056d0f283451d9996fbb59b70d45722b45d854d58f32878d0a40c38e
   - url: https://github.com/authlib/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 0c06b18e667033c3ed5c640bcc52d1bd7d8b285c2babc3e974bbb376b0b0b1c1
-    folder: gh
+    sha256: ce10a845ac8066757d658e45c41d160dfbd728da7a29056ebd4e190c051da687
 
 build:
   skip: true  # [py<39]
@@ -39,8 +36,8 @@ requirements:
 
 test:
   source_files:
-    - gh/tests
-    - gh/pyproject.toml
+    - tests
+    - pyproject.toml
   imports:
     - authlib
     - authlib.consts
@@ -65,7 +62,6 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - cd gh
     - set DJANGO_SETTINGS_MODULE=tests.django_settings  # [win]
     - export DJANGO_SETTINGS_MODULE=tests.django_settings  # [unix]
     - pytest -v tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
