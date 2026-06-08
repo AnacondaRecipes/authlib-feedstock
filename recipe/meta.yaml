@@ -1,5 +1,5 @@
 {% set name = "authlib" %}
-{% set version = "1.6.9" %}
+{% set version = "1.7.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +7,10 @@ package:
 
 source:
   - url: https://github.com/authlib/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: ce10a845ac8066757d658e45c41d160dfbd728da7a29056ebd4e190c051da687
+    sha256: 939d7d4c1ea10e3747b03cc76c478f5158657a32645a496be38100c927ee6a4c
 
 build:
-  skip: true  # [py<39]
+  skip: true  # [py<310]
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
@@ -24,10 +24,10 @@ requirements:
     - python
     # Keep requests at runtime for backward compatibility
     - requests
-    - cryptography >=3.2
+    - cryptography
+    - joserfc >=1.6.0
   run_constrained:
     - pycryptodomex >=3.10,<4
-    - asgiref==3.6.0   # [py<310 and python_impl=="pypy"]
 
 # AssertionError: assert 'dev' == 'dev-client-id'
 {% set tests_to_skip = "test_register_with_overwrite" %}
@@ -51,7 +51,6 @@ test:
     - pip
     - pytest
     - pytest-asyncio
-    - pytest-tornasync
     - python-multipart
     - flask
     - flask-sqlalchemy
