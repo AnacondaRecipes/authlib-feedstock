@@ -1,5 +1,5 @@
 {% set name = "authlib" %}
-{% set version = "1.7.2" %}
+{% set version = "1.8.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   - url: https://github.com/authlib/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 939d7d4c1ea10e3747b03cc76c478f5158657a32645a496be38100c927ee6a4c
+    sha256: 216e3085ff2b371100acbb7e8a3bfe6e403ac138dababb3346b6147c3564ca56
 
 build:
   skip: true  # [py<310]
@@ -24,8 +24,8 @@ requirements:
     - python
     # Keep requests at runtime for backward compatibility
     - requests
-    - cryptography
-    - joserfc >=1.6.0
+    - cryptography >=45.0.1
+    - joserfc >=1.6.1
   run_constrained:
     - pycryptodomex >=3.10,<4
 
@@ -57,13 +57,14 @@ test:
     - django
     - cachelib
     - httpx
+    - httpx2 >=2.0
     - starlette
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
     - set DJANGO_SETTINGS_MODULE=tests.django_settings  # [win]
     - export DJANGO_SETTINGS_MODULE=tests.django_settings  # [unix]
-    - pytest -v tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
+    - pytest -vv tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
 
 about:
   home: https://authlib.org
