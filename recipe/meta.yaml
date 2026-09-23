@@ -1,10 +1,6 @@
 {% set name = "authlib" %}
 {% set version = "1.8.0" %}
-{% set tests_to_skip = "test_register_with_overwrite" %}
-{% set ignore_tests = "--ignore=tests/django" %}
 
-# AssertionError: assert 'dev' == 'dev-client-id'
-# Exclude django: django.core.exceptions.AppRegistryNotReady: Apps aren't loaded yet
 package:
   name: {{ name|lower }}
   version: {{ version }}
@@ -32,6 +28,11 @@ requirements:
     - joserfc >=1.6.1
   run_constrained:
     - pycryptodomex >=3.10,<4
+
+# AssertionError: assert 'dev' == 'dev-client-id'
+{% set tests_to_skip = "test_register_with_overwrite" %}
+# Exclude django: django.core.exceptions.AppRegistryNotReady: Apps aren't loaded yet
+{% set ignore_tests = "--ignore=tests/django" %}
 
 test:
   source_files:
@@ -62,7 +63,7 @@ test:
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
     - set DJANGO_SETTINGS_MODULE=tests.django_settings  # [win]
     - export DJANGO_SETTINGS_MODULE=tests.django_settings  # [unix]
-    - pytest -v tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
+    - pytest -vv tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
 
 about:
   home: https://authlib.org
