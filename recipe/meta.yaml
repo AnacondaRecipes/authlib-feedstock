@@ -57,6 +57,7 @@ test:
     - django
     - cachelib
     - httpx
+    - httpx2 >=2.0
     - starlette
   commands:
     - pip check
