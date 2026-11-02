@@ -1,13 +1,13 @@
 {% set name = "authlib" %}
-{% set version = "1.9.1" %}
+{% set version = "1.9.2" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   - url: https://github.com/authlib/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 9868306525d9907a3eaf97ff8f5dd754c3cb768e41823dc7f5565abfe3e169fb
+    sha256: 8bcabc378284f216fb7c13a7311210f81a4d4cd18aebd5ed986a7e85442b17f1
 
 build:
   skip: true  # [py<310]
@@ -26,8 +26,6 @@ requirements:
     - requests
     - cryptography >=45.0.1
     - joserfc >=1.6.8
-  run_constrained:
-    - pycryptodomex >=3.10,<4
 
 # Exclude django: requires pytest-django/pytest-env, which are not available on pkgs/main
 {% set ignore_tests = "--ignore=tests/django" %}
