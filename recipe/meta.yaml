@@ -1,5 +1,5 @@
 {% set name = "authlib" %}
-{% set version = "1.9.6" %}
+{% set version = "1.9.9" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   - url: https://github.com/authlib/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: f6526fc030bc9813949913ddd11841711bb949839fc8d6e95f198c79ded5b1e9
+    sha256: 5b71431f8a7f41b2ef7ef22d746566f0515881eb8c6bbc0ec46bb6ce53ce068a
 
 build:
   skip: true  # [py<310]
