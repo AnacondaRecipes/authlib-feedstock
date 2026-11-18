@@ -48,8 +48,8 @@ test:
     - pytest
     - pytest-asyncio
     - python-multipart
-    - flask
-    - flask-sqlalchemy
+    - flask >=3.0
+    - flask-sqlalchemy >=3.0.2
     - django
     - cachelib
     - httpx
